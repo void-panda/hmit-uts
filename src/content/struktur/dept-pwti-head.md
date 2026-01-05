@@ -1,7 +1,8 @@
 ---
-nama: "Kepala PWTI"
-jabatan: "Kepala Departemen"
-divisi: "PWTI"
+nama: Imam Ikhlasul Jihad
+jabatan: Kepala Departemen
+divisi: PWTI
+foto: /images/struktur/kadep.png
 urutan: 7
-kabinetId: "2024-2025"
+kabinetId: 2024-2025
 ---
