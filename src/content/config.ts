@@ -15,16 +15,15 @@ const kabinetCollection = defineCollection({
 // Struktur collection - anggota pengurus
 const strukturCollection = defineCollection({
     type: "content",
-    schema: ({ image }) =>
-        z.object({
-            nama: z.string(),
-            jabatan: z.string(),
-            divisi: z.string().optional(),
-            foto: image().optional(),
-            instagram: z.string().optional(),
-            urutan: z.number(), // untuk sorting display
-            kabinetId: z.string(), // reference to kabinet
-        }),
+    schema: z.object({
+        nama: z.string(),
+        jabatan: z.string(),
+        divisi: z.string().optional(),
+        foto: z.string().optional(),
+        instagram: z.string().optional(),
+        urutan: z.number(), // untuk sorting display
+        kabinetId: z.string().or(z.number()), // allow number or string as CMS might save it without quotes
+    }),
 });
 
 // Proker collection - program kerja
