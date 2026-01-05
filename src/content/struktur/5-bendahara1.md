@@ -1,7 +1,8 @@
 ---
-nama: "Bendahara 1"
-jabatan: "Bendahara 1"
-divisi: "BPH"
+nama: Rista Laria
+jabatan: Bendahara
+divisi: BPH
+foto: /images/struktur/bendahara.png
 urutan: 5
-kabinetId: "2024-2025"
+kabinetId: 2024-2025
 ---
