@@ -50,6 +50,8 @@ collections:
     extension: md
     format: frontmatter
     sortable_fields: ["urutan", "nama", "jabatan"]
+    media_folder: "/public/images/struktur"
+    public_folder: "/images/struktur"
     fields:
       - { name: nama, label: "Nama Lengkap", widget: string, required: true }
       - { name: jabatan, label: "Jabatan", widget: string, required: true }
@@ -65,7 +67,7 @@ collections:
           - "KESRA"
           - "KWU"
         required: true
-      - { name: foto, label: "Foto", widget: image, required: false, media_folder: "/public/images/struktur" }
+      - { name: foto, label: "Foto", widget: image, required: false }
       - { name: instagram, label: "Username Instagram (tanpa @)", widget: string, required: false }
       - { name: urutan, label: "Urutan Tampil", widget: number, default: 10, required: true }
       - name: kabinetId
