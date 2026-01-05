@@ -1,3 +1,9 @@
 [build]
-command = "astro build"
+command = "pnpm build"
 publish = "dist"
+
+# Redirects for SPA fallback
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200

@@ -1,15 +1,9 @@
 backend:
-  name: github
-  repo: hmit-uts/hmit-uts.github.io
+  name: git-gateway
   branch: main
-  base_url: https://api.netlify.com
-  auth_endpoint: auth
 
 # Local testing - uncomment for local development
-# backend:
-#   name: git-gateway
-
-local_backend: true
+# local_backend: true
 
 media_folder: public/images
 public_folder: /images
@@ -18,9 +12,9 @@ public_folder: /images
 publish_mode: editorial_workflow
 
 # Site settings
-site_url: https://hmit-uts.github.io
-display_url: https://hmit-uts.github.io
-logo_url: /images/logo-hmit.png
+site_url: https://hmit-uts.netlify.app
+display_url: https://hmit-uts.netlify.app
+logo_url: /hmit.jpg
 
 # Slug settings
 slug:
@@ -63,14 +57,14 @@ collections:
         label: "Divisi"
         widget: select
         options:
-          - "Pimpinan"
-          - "Sekretariat"
-          - "Keuangan"
-          - "Humas"
-          - "Pengembangan"
-          - "Akademik"
-          - "Minat & Bakat"
-        required: false
+          - "BPH"
+          - "PWTI"
+          - "SOSMAS"
+          - "PSDM"
+          - "MEDIA"
+          - "KESRA"
+          - "KWU"
+        required: true
       - { name: foto, label: "Foto", widget: image, required: false, media_folder: "/public/images/struktur" }
       - { name: instagram, label: "Username Instagram (tanpa @)", widget: string, required: false }
       - { name: urutan, label: "Urutan Tampil", widget: number, default: 10, required: true }
