@@ -1,0 +1,205 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Hero } from "@/components/Hero";
+import { ProkerCard } from "@/components/ProkerCard";
+import siteConfig from "@/data/siteConfig.json";
+
+// Get highlighted proker (top 3 by status priority)
+const allProker = await getCollection("proker");
+const highlightedProker = allProker
+  .sort((a, b) => {
+    const statusOrder = { berjalan: 0, perencanaan: 1, selesai: 2 };
+    return statusOrder[a.data.status] - statusOrder[b.data.status];
+  })
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={siteConfig.seo.title}
+  description={siteConfig.seo.description}
+>
+  <!-- Hero Section -->
+  <Hero client:load />
+
+  <!-- About Preview with Tangerine Background -->
+  <section class="relative py-24 lg:py-32 overflow-hidden">
+    <div
+      class="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/5 to-transparent"
+    >
+    </div>
+    <div class="container relative">
+      <div
+        class="mx-auto max-w-4xl rounded-3xl border-2 border-primary/10 bg-card/50 p-8 md:p-16 backdrop-blur-sm shadow-2xl shadow-primary/5"
+      >
+        <div class="grid gap-12 md:grid-cols-2 items-center">
+          <div class="space-y-6">
+            <h2 class="text-4xl font-black md:text-5xl leading-tight">
+              Membangun <span class="text-primary italic">Masa Depan</span> Informatika
+            </h2>
+            <p class="text-lg text-muted-foreground leading-relaxed">
+              Himpunan Mahasiswa Informatika (HMIT) UTS adalah wadah kreatif dan
+              kolaboratif bagi mahasiswa untuk mengembangkan potensi digital
+              mereka melalui berbagai program inovatif.
+            </p>
+            <div class="pt-4">
+              <a
+                href="/tentang"
+                class="group inline-flex items-center gap-2 text-xl font-black text-primary hover:gap-4 transition-all"
+              >
+                Tentang Kami
+                <span class="text-2xl">→</span>
+              </a>
+            </div>
+          </div>
+          <div
+            class="relative aspect-square rounded-2xl bg-primary/10 flex items-center justify-center overflow-hidden"
+          >
+            <div
+              class="text-9xl font-black text-primary/5 animate-pulse select-none"
+            >
+              HMIT
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div
+                class="h-32 w-32 rounded-3xl bg-primary flex items-center justify-center text-primary-foreground text-5xl font-black shadow-2xl shadow-primary/40 rotate-6 group-hover:rotate-0 transition-transform duration-500"
+              >
+                H
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Program Kerja Highlights -->
+  <section class="py-24 lg:py-32">
+    <div class="container">
+      <div
+        class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6"
+      >
+        <div class="max-w-2xl">
+          <h2
+            class="text-4xl font-black md:text-5xl lg:text-6xl tracking-tight"
+          >
+            Program <span
+              class="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent"
+              >Pilihan</span>
+          </h2>
+          <p class="mt-4 text-xl text-muted-foreground font-medium">
+            Hasil karya dan dedikasi kami untuk seluruh civitas akademika
+            Informatika UTS.
+          </p>
+        </div>
+        <a
+          href="/proker"
+          class="inline-flex items-center px-8 py-4 rounded-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-all font-bold text-lg shadow-xl active:scale-95"
+        >
+          Semua Program
+        </a>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {
+          highlightedProker.map((proker) => (
+            <ProkerCard
+              nama={proker.data.nama}
+              bidang={proker.data.bidang}
+              deskripsi={proker.data.deskripsi}
+              status={proker.data.status}
+              client:load
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Instagram CTA Section with Orange Style -->
+  <section class="py-24 lg:py-32 relative">
+    <div class="container">
+      <div
+        class="relative overflow-hidden rounded-[3rem] bg-black px-8 py-20 text-center text-white md:py-32 shadow-[0_0_80px_rgba(249,115,22,0.15)]"
+      >
+        {/* Abstract background */}
+        <div
+          class="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-primary/20 blur-[120px]"
+        >
+        </div>
+        <div
+          class="absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-orange-500/20 blur-[120px]"
+        >
+        </div>
+
+        <div class="relative mx-auto max-w-2xl">
+          <div
+            class="mb-8 inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] p-0 shadow-2xl rotate-12 transition-transform hover:rotate-0 duration-500"
+          >
+            <svg
+              class="size-10 text-white"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              ><path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+              ></path></svg
+            >
+          </div>
+          <h2
+            class="text-5xl font-black md:text-6xl tracking-tight mb-6 italic"
+          >
+            Stay <span class="text-primary">Connected</span>
+          </h2>
+          <p class="text-xl text-zinc-400 font-medium leading-relaxed mb-12">
+            Ikuti perjalanan kami membangun masa depan melalui Instagram resmi.
+            Dapatkan update event, workshop, dan prestasi terbaru.
+          </p>
+          <a
+            href={siteConfig.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-black hover:bg-primary hover:text-white transition-all font-black text-xl shadow-[0_0_40px_rgba(255,255,255,0.2)] active:scale-95"
+          >
+            Follow @hmit_uts
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-24 lg:py-32">
+    <div class="container text-center">
+      <div
+        class="inline-block rounded-full bg-primary/10 px-4 py-2 text-sm font-black text-primary uppercase tracking-widest mb-6"
+      >
+        Waktunya Beraksi
+      </div>
+      <h2 class="text-5xl font-black md:text-6xl lg:text-7xl mb-8">
+        Siap Jadi Bagian <span
+          class="bg-gradient-to-r from-primary to-amber-500 bg-clip-text text-transparent italic"
+          >Keluarga Kami?</span>
+      </h2>
+      <p
+        class="mx-auto max-w-2xl text-xl text-muted-foreground font-medium mb-12"
+      >
+        Jangan lewatkan kesempatan untuk berkembang, berjejaring, dan
+        berkontribusi bagi almamater.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+        <a
+          href="/kontak"
+          class="inline-flex items-center px-12 py-5 rounded-full bg-primary text-primary-foreground hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] transition-all font-black text-xl active:scale-95"
+        >
+          Hubungi Kami
+        </a>
+        <a
+          href="/struktur"
+          class="inline-flex items-center px-12 py-5 rounded-full border-4 border-primary text-primary hover:bg-primary hover:text-white transition-all font-black text-xl active:scale-95"
+        >
+          Lihat Pengurus
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

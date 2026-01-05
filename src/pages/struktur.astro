@@ -1,0 +1,183 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { StrukturCard } from "@/components/StrukturCard";
+
+// Get active kabinet
+const allKabinet = await getCollection("kabinet");
+const activeKabinet = allKabinet.find((k) => k.data.aktif);
+
+// Get struktur for active kabinet
+const allStruktur = await getCollection("struktur");
+const strukturAktif = allStruktur
+    .filter((s) => s.data.kabinetId === activeKabinet?.slug)
+    .sort((a, b) => a.data.urutan - b.data.urutan);
+
+// Grouping Logic
+// BPH (Badan Pengurus Harian)
+const bph = strukturAktif.filter((s) => s.data.divisi === "BPH");
+
+// Departments List
+const departmentNames = ["PWTI", "SOSMAS", "PSDM", "MEDIA", "KESRA", "KWU"];
+
+// Group other divisions (excluding BPH)
+const departments = departmentNames.reduce(
+    (acc, name) => {
+        const members = strukturAktif.filter((s) => s.data.divisi === name);
+        if (members.length > 0) {
+            acc[name] = members;
+        }
+        return acc;
+    },
+    {} as Record<string, typeof strukturAktif>,
+);
+
+// Any divisions not in BPH or known Departments
+const otherDivisions = strukturAktif
+    .filter(
+        (s) =>
+            s.data.divisi !== "BPH" &&
+            !departmentNames.includes(s.data.divisi || ""),
+    )
+    .reduce(
+        (acc, current) => {
+            const divName = current.data.divisi || "Lainnya";
+            if (!acc[divName]) acc[divName] = [];
+            acc[divName].push(current);
+            return acc;
+        },
+        {} as Record<string, typeof strukturAktif>,
+    );
+---
+
+<BaseLayout
+    title="Struktur Organisasi - HMIT UTS"
+    description="Struktur kepengurusan Himpunan Mahasiswa Informatika UTS"
+>
+    <!-- Header -->
+    <section
+        class="relative py-24 lg:py-32 overflow-hidden bg-black text-white"
+    >
+        <div
+            class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(249,115,22,0.15),transparent)]"
+        >
+        </div>
+        <div class="container relative text-center">
+            <div
+                class="inline-block rounded-full bg-primary/20 px-4 py-2 text-sm font-black text-primary uppercase tracking-widest mb-6 italic animate-in fade-in zoom-in-95 duration-700"
+            >
+                The Powerhouse
+            </div>
+            <h1
+                class="text-5xl font-black md:text-7xl lg:text-8xl tracking-tight leading-tight animate-in fade-in slide-in-from-bottom-4 duration-1000"
+            >
+                Struktur <span
+                    class="bg-gradient-to-r from-primary to-amber-500 bg-clip-text text-transparent italic"
+                    >Organisasi</span
+                >
+            </h1>
+
+            {
+                activeKabinet && (
+                    <div class="mt-10 flex flex-col items-center gap-4 animate-in fade-in slide-in-from-bottom-6 duration-1200">
+                        <div class="text-2xl font-black text-primary italic uppercase tracking-tighter">
+                            {activeKabinet.data.nama}
+                        </div>
+                        <p class="text-xl text-zinc-400 font-medium max-w-3xl">
+                            Periode {activeKabinet.data.periode}.{" "}
+                            {activeKabinet.data.tagline &&
+                                `"${activeKabinet.data.tagline}"`}
+                        </p>
+                    </div>
+                )
+            }
+        </div>
+    </section>
+
+    <!-- BPH Section -->
+    {
+        bph.length > 0 && (
+            <section class="py-24 lg:py-32 bg-background relative overflow-hidden">
+                <div class="absolute -top-24 -left-24 size-96 bg-primary/5 rounded-full blur-3xl" />
+                <div class="container relative">
+                    <div class="flex items-center gap-4 mb-16">
+                        <div class="h-1 lg:h-2 w-12 lg:w-24 bg-primary rounded-full" />
+                        <h2 class="text-3xl lg:text-5xl font-black italic uppercase tracking-tighter text-primary">
+                            Badan{" "}
+                            <span class="text-foreground">Pengurus Harian</span>
+                        </h2>
+                    </div>
+
+                    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                        {bph.map((anggota) => (
+                            <StrukturCard
+                                nama={anggota.data.nama}
+                                jabatan={anggota.data.jabatan}
+                                divisi={anggota.data.divisi}
+                                foto={anggota.data.foto}
+                                instagram={anggota.data.instagram}
+                                client:load
+                            />
+                        ))}
+                    </div>
+                </div>
+            </section>
+        )
+    }
+
+    <!-- Departments Section -->
+    {
+        Object.entries(departments).map(([name, members]) => (
+            <section class="py-24 lg:py-32 border-t bg-card/30 lg:even:bg-background">
+                <div class="container">
+                    <div class="flex items-center gap-6 mb-16">
+                        <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-black text-2xl shadow-lg shadow-primary/20">
+                            {name.charAt(0)}
+                        </div>
+                        <h2 class="text-3xl lg:text-5xl font-black italic uppercase tracking-tighter">
+                            Departemen <span class="text-primary">{name}</span>
+                        </h2>
+                    </div>
+
+                    <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {members.map((anggota) => (
+                            <StrukturCard
+                                nama={anggota.data.nama}
+                                jabatan={anggota.data.jabatan}
+                                divisi={anggota.data.divisi}
+                                foto={anggota.data.foto}
+                                instagram={anggota.data.instagram}
+                                client:load
+                            />
+                        ))}
+                    </div>
+                </div>
+            </section>
+        ))
+    }
+
+    <!-- Other Divisions (if any) -->
+    {
+        Object.entries(otherDivisions).map(([divName, members]) => (
+            <section class="py-24 lg:py-32 border-t">
+                <div class="container">
+                    <h2 class="text-3xl lg:text-5xl font-black italic uppercase tracking-tighter mb-16">
+                        {divName}
+                    </h2>
+                    <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {members.map((anggota) => (
+                            <StrukturCard
+                                nama={anggota.data.nama}
+                                jabatan={anggota.data.jabatan}
+                                divisi={anggota.data.divisi}
+                                foto={anggota.data.foto}
+                                instagram={anggota.data.instagram}
+                                client:load
+                            />
+                        ))}
+                    </div>
+                </div>
+            </section>
+        ))
+    }
+</BaseLayout>

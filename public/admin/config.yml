@@ -1,0 +1,142 @@
+backend:
+  name: github
+  repo: hmit-uts/hmit-uts.github.io
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+# Local testing - uncomment for local development
+# backend:
+#   name: git-gateway
+
+local_backend: true
+
+media_folder: public/images
+public_folder: /images
+
+# Publishing workflow
+publish_mode: editorial_workflow
+
+# Site settings
+site_url: https://hmit-uts.github.io
+display_url: https://hmit-uts.github.io
+logo_url: /images/logo-hmit.png
+
+# Slug settings
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  # Kabinet Collection
+  - name: kabinet
+    label: "Kabinet"
+    label_singular: "Kabinet"
+    folder: src/content/kabinet
+    create: true
+    slug: "{{periode | slugify}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { name: nama, label: "Nama Kabinet", widget: string, required: true }
+      - { name: periode, label: "Periode (contoh: 2024/2025)", widget: string, required: true }
+      - { name: aktif, label: "Kabinet Aktif", widget: boolean, default: true }
+      - { name: tagline, label: "Tagline", widget: string, required: false }
+      - { name: deskripsi, label: "Deskripsi", widget: text, required: false }
+      - { name: body, label: "Konten Tambahan", widget: markdown, required: false }
+
+  # Struktur Organisasi Collection
+  - name: struktur
+    label: "Struktur Organisasi"
+    label_singular: "Anggota"
+    folder: src/content/struktur
+    create: true
+    slug: "{{nama | slugify}}"
+    extension: md
+    format: frontmatter
+    sortable_fields: ["urutan", "nama", "jabatan"]
+    fields:
+      - { name: nama, label: "Nama Lengkap", widget: string, required: true }
+      - { name: jabatan, label: "Jabatan", widget: string, required: true }
+      - name: divisi
+        label: "Divisi"
+        widget: select
+        options:
+          - "Pimpinan"
+          - "Sekretariat"
+          - "Keuangan"
+          - "Humas"
+          - "Pengembangan"
+          - "Akademik"
+          - "Minat & Bakat"
+        required: false
+      - { name: foto, label: "Foto", widget: image, required: false, media_folder: "/public/images/struktur" }
+      - { name: instagram, label: "Username Instagram (tanpa @)", widget: string, required: false }
+      - { name: urutan, label: "Urutan Tampil", widget: number, default: 10, required: true }
+      - name: kabinetId
+        label: "Periode Kabinet"
+        widget: relation
+        collection: kabinet
+        value_field: "{{slug}}"
+        search_fields: ["nama", "periode"]
+        display_fields: ["nama", "periode"]
+        required: true
+      - { name: body, label: "Bio Singkat", widget: markdown, required: false }
+
+  # Program Kerja Collection
+  - name: proker
+    label: "Program Kerja"
+    label_singular: "Program Kerja"
+    folder: src/content/proker
+    create: true
+    slug: "{{nama | slugify}}"
+    extension: md
+    format: frontmatter
+    sortable_fields: ["nama", "bidang", "status", "tanggal"]
+    fields:
+      - { name: nama, label: "Nama Program", widget: string, required: true }
+      - name: bidang
+        label: "Bidang"
+        widget: select
+        options:
+          - "Pengembangan Kompetensi"
+          - "Kompetisi"
+          - "Sosial & Kemasyarakatan"
+          - "Internal Organisasi"
+          - "Kerjasama & Kemitraan"
+        required: true
+      - { name: deskripsi, label: "Deskripsi Singkat", widget: text, required: true }
+      - name: status
+        label: "Status"
+        widget: select
+        options:
+          - { label: "Perencanaan", value: "perencanaan" }
+          - { label: "Sedang Berjalan", value: "berjalan" }
+          - { label: "Selesai", value: "selesai" }
+        default: "perencanaan"
+        required: true
+      - { name: tanggal, label: "Tanggal Pelaksanaan", widget: datetime, required: false }
+      - name: kabinetId
+        label: "Periode Kabinet"
+        widget: relation
+        collection: kabinet
+        value_field: "{{slug}}"
+        search_fields: ["nama", "periode"]
+        display_fields: ["nama", "periode"]
+        required: true
+      - { name: body, label: "Detail Program", widget: markdown, required: false }
+
+  # Static Pages Collection
+  - name: pages
+    label: "Halaman Statis"
+    label_singular: "Halaman"
+    folder: src/content/pages
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { name: title, label: "Judul Halaman", widget: string, required: true }
+      - { name: description, label: "Deskripsi SEO", widget: string, required: false }
+      - { name: body, label: "Konten", widget: markdown, required: true }

@@ -1,0 +1,194 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import {
+    Mail,
+    Instagram,
+    ExternalLink,
+    MapPin,
+    MessageSquare,
+    ChevronRight,
+} from "lucide-react";
+import siteConfig from "@/data/siteConfig.json";
+---
+
+<BaseLayout
+    title="Kontak - HMIT UTS"
+    description="Hubungi Himpunan Mahasiswa Informatika UTS"
+>
+    <!-- Header -->
+    <section
+        class="relative py-24 lg:py-32 overflow-hidden bg-black text-white"
+    >
+        <div
+            class="absolute inset-0 -z-10 bg-gradient-to-br from-primary/20 via-black to-orange-950/20"
+        >
+        </div>
+        <div class="container relative text-center">
+            <div
+                class="inline-block rounded-full bg-primary/20 px-4 py-2 text-sm font-black text-primary uppercase tracking-widest mb-6 italic animate-in fade-in duration-700"
+            >
+                Connect With Us
+            </div>
+            <h1
+                class="text-5xl font-black md:text-7xl lg:text-8xl tracking-tight leading-tight animate-in fade-in slide-in-from-bottom-4 duration-1000"
+            >
+                Lets Get <span
+                    class="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent italic text-primary"
+                    >In Touch</span
+                >
+            </h1>
+            <p
+                class="mx-auto mt-8 max-w-2xl text-xl text-zinc-400 font-medium animate-in fade-in slide-in-from-bottom-6 duration-1200"
+            >
+                Punya ide cemerlang, pertanyaan, atau ingin berkolaborasi? Pintu
+                kami selalu terbuka lebar.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Cards Grid -->
+    <section class="py-24 lg:py-32 bg-background relative overflow-hidden">
+        <div class="container relative">
+            <div class="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
+                {/* Email Card */}
+                <a
+                    href={`mailto:${siteConfig.email}`}
+                    class="group relative overflow-hidden rounded-[2.5rem] border-2 border-primary/10 bg-card p-10 transition-all hover:border-primary/50 hover:shadow-2xl active:scale-95"
+                >
+                    <div class="flex items-center justify-between mb-8">
+                        <div
+                            class="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/25 transition-transform group-hover:scale-110 group-hover:-rotate-3"
+                        >
+                            <Mail className="size-8" />
+                        </div>
+                        <ChevronRight
+                            className="size-8 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0"
+                        />
+                    </div>
+                    <h3
+                        class="text-3xl font-black italic uppercase tracking-tighter mb-2 group-hover:text-primary transition-colors"
+                    >
+                        Kirim Email
+                    </h3>
+                    <p class="text-xl text-muted-foreground font-bold">
+                        {siteConfig.email}
+                    </p>
+                </a>
+
+                {/* Instagram Card */}
+                <a
+                    href={siteConfig.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group relative overflow-hidden rounded-[2.5rem] border-2 border-[#ee2a7b]/10 bg-card p-10 transition-all hover:border-[#ee2a7b]/50 hover:shadow-2xl active:scale-95"
+                >
+                    <div class="flex items-center justify-between mb-8">
+                        <div
+                            class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white shadow-lg shadow-[#ee2a7b]/25 transition-transform group-hover:scale-110 group-hover:rotate-3"
+                        >
+                            <Instagram className="size-8" />
+                        </div>
+                        <ChevronRight
+                            className="size-8 text-[#ee2a7b] opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0"
+                        />
+                    </div>
+                    <h3
+                        class="text-3xl font-black italic uppercase tracking-tighter mb-2 group-hover:text-[#ee2a7b] transition-colors"
+                    >
+                        Direct Message
+                    </h3>
+                    <p class="text-xl text-muted-foreground font-bold">
+                        @hmit_uts
+                    </p>
+                </a>
+
+                {/* Linktree Card */}
+                {
+                    siteConfig.linktree && (
+                        <a
+                            href={siteConfig.linktree}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="group relative overflow-hidden rounded-[2.5rem] border-2 border-emerald-500/10 bg-card p-10 transition-all hover:border-emerald-500/50 hover:shadow-2xl active:scale-95"
+                        >
+                            <div class="flex items-center justify-between mb-8">
+                                <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500 text-white shadow-lg shadow-emerald-500/25 transition-transform group-hover:scale-110 group-hover:rotate-3">
+                                    <ExternalLink className="size-8" />
+                                </div>
+                                <ChevronRight className="size-8 text-emerald-500 opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0" />
+                            </div>
+                            <h3 class="text-3xl font-black italic uppercase tracking-tighter mb-2 group-hover:text-emerald-500 transition-colors">
+                                All Links
+                            </h3>
+                            <p class="text-xl text-muted-foreground font-bold">
+                                hmit_uts
+                            </p>
+                        </a>
+                    )
+                }
+
+                {/* Location Card */}
+                <div
+                    class="group relative overflow-hidden rounded-[2.5rem] border-2 border-blue-500/10 bg-card p-10 transition-all hover:border-blue-500/50"
+                >
+                    <div
+                        class="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-500 text-white shadow-lg shadow-blue-500/25 transition-transform group-hover:scale-110"
+                    >
+                        <MapPin className="size-8" />
+                    </div>
+                    <h3
+                        class="text-3xl font-black italic uppercase tracking-tighter mb-2 text-primary"
+                    >
+                        Basecamp
+                    </h3>
+                    <p class="text-xl text-muted-foreground font-bold">
+                        Lantai 2, Gedung FRS, UTS
+                    </p>
+                </div>
+            </div>
+
+            {/* Collaboration Call to Action */}
+            <div class="max-w-5xl mx-auto mt-20">
+                <div
+                    class="relative overflow-hidden rounded-[3rem] bg-primary px-8 py-16 text-center text-primary-foreground shadow-2xl shadow-primary/40"
+                >
+                    <div class="relative z-10">
+                        <div
+                            class="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-3xl bg-white/20 backdrop-blur-md"
+                        >
+                            <MessageSquare className="size-10" />
+                        </div>
+                        <h2
+                            class="text-4xl md:text-5xl font-black mb-6 italic tracking-tight"
+                        >
+                            Butuh Kerjasama Formal?
+                        </h2>
+                        <p
+                            class="mx-auto max-w-2xl text-xl font-bold opacity-90 mb-10"
+                        >
+                            Kami siap berkolaborasi dalam event, sponsorship,
+                            atau program kemandirian mahasiswa.
+                        </p>
+                        <a
+                            href={`mailto:${siteConfig.email}`}
+                            class="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-primary hover:bg-black hover:text-white transition-all font-black text-xl shadow-xl active:scale-95"
+                        >
+                            Hubungi via Email
+                            <ChevronRight className="size-6" />
+                        </a>
+                    </div>
+
+                    {/* Abstract patterns */}
+                    <div
+                        class="absolute -top-20 -left-20 size-80 rounded-full bg-white/10 blur-[100px]"
+                    >
+                    </div>
+                    <div
+                        class="absolute -bottom-20 -right-20 size-80 rounded-full bg-black/10 blur-[100px]"
+                    >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</BaseLayout>

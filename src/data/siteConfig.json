@@ -1,0 +1,51 @@
+{
+    "organization": "HMIT UTS",
+    "fullName": "Himpunan Mahasiswa Informatika Universitas Teknologi Sumbawa",
+    "tagline": "Membangun Generasi Digital yang Unggul dan Berkarakter",
+    "email": "hmit@uts.ac.id",
+    "instagram": "https://instagram.com/hmit_uts",
+    "linktree": "https://linktr.ee/hmit_uts",
+    "navigation": [
+        {
+            "name": "Beranda",
+            "href": "/"
+        },
+        {
+            "name": "Tentang",
+            "href": "/tentang"
+        },
+        {
+            "name": "Struktur",
+            "href": "/struktur"
+        },
+        {
+            "name": "Program Kerja",
+            "href": "/proker"
+        },
+        {
+            "name": "Event",
+            "href": "/event"
+        },
+        {
+            "name": "Kontak",
+            "href": "/kontak"
+        }
+    ],
+    "seo": {
+        "title": "HMIT UTS - Himpunan Mahasiswa Informatika",
+        "description": "Himpunan Mahasiswa Informatika Universitas Teknologi Sumbawa. Informasi struktur organisasi, program kerja, dan kegiatan.",
+        "keywords": [
+            "HMIT",
+            "UTS",
+            "Informatika",
+            "Himpunan Mahasiswa",
+            "Universitas Teknologi Sumbawa"
+        ],
+        "ogImage": "/hmit.jpg"
+    },
+    "branding": {
+        "primaryColor": "#f97316",
+        "accentColor": "#fb923c",
+        "logo": "/hmit.jpg"
+    }
+}
